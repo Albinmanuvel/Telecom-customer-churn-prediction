@@ -1,9 +1,6 @@
 import os
-os.getcwd()
-os.chdir("C:/Users/Albin/Documents/GitHub/Telecom-customer-churn-prediction")
-os.getcwd()
 import pandas as pd
-data1=pd.read_csv("Telecom_Data (1).csv")
+data1=pd.read_csv("Telecom_Data.csv")
 
 #anova(continous & categorial)
 import pingouin as pp
@@ -35,7 +32,7 @@ stats.chi2_contingency(compare)
 stats.chi2_contingency(pd.crosstab(data2["international plan"],data2["churn"]))
 stats.chi2_contingency(pd.crosstab(data2["voice mail plan"],data2["churn"]))
 
-data2.churn.replace({True: 1,False: 0}, inplace=True)
+data2["churn"]=data2["churn"].astype(int)
 data2=pd.get_dummies(data2,columns=['international plan','voice mail plan'])
 
 #separate into dependent & independent 
@@ -53,7 +50,8 @@ model.fit(x_train,y_train)
 y_pred=model.predict(x_test)
 
 #finding accuracy
-from sklearn.metrics import accuracy_score,confusion_matrix
+from sklearn.metrics import accuracy_score,confusion_matrix,classification_report
 accuracy=accuracy_score(y_test,y_pred)
 print(accuracy)
-confusion_matrix(y_test, y_pred)
+print(confusion_matrix(y_test, y_pred))
+print(classification_report(y_test, y_pred))
